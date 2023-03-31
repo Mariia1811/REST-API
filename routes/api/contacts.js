@@ -1,18 +1,29 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const ctrl = require("../../controllers/contacts");
 const validateBody = require("../../utils/validateBody");
-const addContactsSchema = require("../../schemas/books");
-
+const isValidId = require("../../middlewares/isValidId");
+const {
+  addContactsSchema,
+  updateFavoriteSchema,
+} = require("../../schemas/books");
 
 router.get("/", ctrl.getAll);
 
-router.get("/:id", ctrl.getById);
+router.get("/:id", isValidId, ctrl.getById);
 
-router.post("/",  validateBody(addContactsSchema), ctrl.add);
+router.post("/", validateBody(addContactsSchema), ctrl.add);
 
-router.delete("/:id", ctrl.deleteById);
+router.delete("/:id", isValidId, ctrl.deleteById);
 
-router.put("/:id", validateBody(addContactsSchema), ctrl.updateById);
+router.put("/:id", isValidId, validateBody(addContactsSchema), ctrl.updateById);
+
+router.patch(
+  "/:id/favorite",
+  isValidId,
+  validateBody(updateFavoriteSchema),
+  ctrl.updateStatusContact
+);
 
 module.exports = router;
