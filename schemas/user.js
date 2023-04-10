@@ -1,15 +1,26 @@
 const Joi = require("joi");
-const emailRegexp = require("../models/user");
 
 const registerSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().min(6).required(),
+  subscription: Joi.string(),
+  email: Joi.string().required().messages({
+    message: "Validation error! Email invalid",
+  }),
+  password: Joi.string().min(6).required().messages({
+    message: "Validation error! Password invalid",
+  }),
 });
 
 const loginSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().min(6).required(),
+  email: Joi.string().required().messages({
+    message: "Validation error! Email invalid",
+  }),
+  password: Joi.string().min(6).required().messages({
+    message: "Validation error! Password invalid",
+  }),
 });
 
-module.exports = { registerSchema, loginSchema };
+const subscriptionSchema = Joi.object({
+  subscription: Joi.string().valueOf("starter", "pro", "business").required(),
+});
+
+module.exports = { registerSchema, loginSchema, subscriptionSchema };
