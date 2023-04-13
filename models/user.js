@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 const handleMongooseError = require("../helpers/handleMongooseError");
 
-
 const userSchema = new Schema(
   {
     password: {
@@ -19,6 +18,7 @@ const userSchema = new Schema(
       default: "starter",
     },
     token: String,
+    avatarURL: String,
   },
   { versionKey: false }
 );
