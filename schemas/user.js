@@ -35,6 +35,3 @@ module.exports = {
   subscriptionSchema,
   verifySchema,
 };
-
-
-// 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;
